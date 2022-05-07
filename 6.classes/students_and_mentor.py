@@ -18,23 +18,33 @@ class Student:
                 return f'Оценка лектору добавлена: {lecturer.surname} {lecturer.name}, ' \
                        f'курс "{course}" оценка - {grade}.'
             else:
-                return 'Ошибка'
+                return f'ОШИБКА: студент {self.surname}{" " if course in self.courses_in_progress else " не "}' \
+                       f'учится на данном курсе, a лектор {lecturer.surname}' \
+                       f'{" " if course in lecturer.courses_attached else " не "}преподает указанный курс.'
         else:
             return f'ОШИБКА: выставляемая лектору {lecturer.surname} оценка - {grade} ' \
                    f'должна быть в пределах от 0 до 10!'
 
-    def sum(self):
-        calc=int()
+    def average_grade(self):
+        sum_grades=int()
+        index = 0
         for course in self.grades.values():
             for grade in course:
-                calc += grade
-        sum = round(calc/len(course), 1)
-        return sum
+                sum_grades += grade
+                index +=1
+        res = round(sum_grades/index, 1)
+        return res
 
     def __str__(self):
-        res = f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за домашние задания:{self.sum()}\
+        res = f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за домашние задания:{self.average_grade()}\
               \nКурсы обучения: {",".join(self.courses_in_progress)}\nЗавершенные курсы: {",".join(self.finished_courses)}'
         return res
+    
+    def __lt__(self, other):
+        return self.average_grade() < other.average_grade()
+
+    def __eq__(self, other):
+        return self.average_grade() == other.average_grade()
 
 class Mentor:
     def __init__(self, name, surname):
@@ -48,19 +58,25 @@ class Lecturer(Mentor):
         super().__init__(name, surname)
         self.grades = {}
 
-    def sum(self):
-        calc=int()
+    def average_grade(self):
+        sum_grades=int()
+        index = 0
         for course in self.grades.values():
             for grade in course:
-                calc += grade
-        sum = round(calc/len(course), 1)
-        return sum
+                sum_grades += grade
+                index +=1
+        res = round(sum_grades/index, 1)
+        return res
 
     def __str__(self):
-        res = f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции:{self.sum()}'
+        res = f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции:{self.average_grade()}'
         return res
-    def __lt__(self,other):
-        return self.sum() > other.sum()
+        
+    def __lt__(self, other):
+        return self.average_grade() < other.average_grade()
+
+    def __eq__(self, other):
+        return self.average_grade() == other.average_grade()
 
 class Reviewer(Mentor):    
     def rate_hw(self, student, course, grade):
@@ -77,8 +93,7 @@ class Reviewer(Mentor):
     def __str__(self):
         res = f'Имя: {self.name}\nФамилия: {self.surname}'
         return res
- 
-
+   
 # Ввод исходных данных студентов
 students = [Student('Вася', 'Петров', 'М'),
             Student('Саша', 'Белкин', 'М'),
@@ -117,21 +132,25 @@ print(reviewers[1].rate_hw(students[2], 'GitHub', 5))
 # Выставление оценок лекторам
 print('\nОЦЕНКИ ЛЕКТОРАМ СТУДЕНТАМИ:')
 print(students[0].rate_hw(lecturers[0], 'Python', 9))
-print(students[1].rate_hw(lecturers[0], 'Python', 10))
+print(students[1].rate_hw(lecturers[0], 'Python', 7))
 print(students[2].rate_hw(lecturers[0], 'Python', 10))
 print(students[2].rate_hw(lecturers[1], 'GitHub', 7))
 print(students[2].rate_hw(lecturers[0], 'GitHub', 10))
 print(students[1].rate_hw(lecturers[1], 'GitHub', 20))
 
+print('\nСПИСОК СТУДЕНТОВ:')
+print(students[0])
+print(students[1])
+print(students[2])
+print('\nСПИСОК ЛЕКТОРОВ:')
+print(lecturers[0])
+print(lecturers[1])
+print('\nСПИСОК ПРОВЕРЯЮЩИХ:')
+print(reviewers[0])
+print(reviewers[1])
 
-
-# Задание № 3
-# 1. Перегрузите магический метод __str__ у всех классов
-print(students)
-# print(some_lecturer)
-# print(some_lecturer1)
-# print(some_student)
-# 2. Реализуйте возможность сравнивать
-# print(some_lecturer < some_lecturer1)
-
+# Проверка работоспособности операторов < >
+print('\n --- ПРОВЕРКА ОПЕРАТОРОВ СРАВНЕНИЯ С ОПИСАННЫМИ КЛАССАМИ ---')
+print(students[0] < students[1])
+print(lecturers[0] < lecturers[1])
 
