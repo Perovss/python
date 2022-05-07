@@ -41,11 +41,13 @@ class Mentor:
         self.name = name
         self.surname = surname
         self.courses_attached = []
-        self.grades = {}
 
 
 class Lecturer(Mentor):
-    
+    def __init__(self, name, surname):
+        super().__init__(name, surname)
+        self.grades = {}
+
     def sum(self):
         calc=int()
         for course in self.grades.values():
@@ -88,12 +90,14 @@ students[2].courses_in_progress += ['GitHub', 'Python']
 students[2].finished_courses += ['English', 'Flask']
 
 # Исходные данные лекторов
-lecturers = [Lecturer('Кирилл', 'Григорьев'), Lecturer('Петр', 'Пивоваров')]
+lecturers = [Lecturer('Кирилл', 'Григорьев'),
+             Lecturer('Петр', 'Пивоваров')]
 lecturers[0].courses_attached += ['Python', 'GitHub']
 lecturers[1].courses_attached += ['GitHub']
 
 # Исходные данные проверяющих
-reviewers = [Reviewer('Константин', 'Гусейкин'), Reviewer('Владислав', 'Мечет')]
+reviewers = [Reviewer('Константин', 'Гусейкин'),
+             Reviewer('Владислав', 'Мечет')]
 reviewers[0].courses_attached += ['Python', 'GitHub']
 reviewers[1].courses_attached += ['English', 'GitHub']
 
@@ -123,7 +127,7 @@ print(students[1].rate_hw(lecturers[1], 'GitHub', 20))
 
 # Задание № 3
 # 1. Перегрузите магический метод __str__ у всех классов
-print(students[0])
+print(students)
 # print(some_lecturer)
 # print(some_lecturer1)
 # print(some_student)
