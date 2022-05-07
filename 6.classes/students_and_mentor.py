@@ -9,11 +9,14 @@ class Student:
 
     def rate_hw(self, lecturer, course, grade):
         if 0 <= grade <= 10:
-            if isinstance(lecturer, Lecturer) and course in lecturer.courses_attached and course in self.courses_in_progress:
+            if isinstance(lecturer, Lecturer) and course in lecturer.courses_attached and\
+                   course in self.courses_in_progress:
                 if course in lecturer.grades:
                     lecturer.grades[course] += [grade]
                 else:
                     lecturer.grades[course] = [grade]
+                return f'Оценка лектору добавлена: {lecturer.surname} {lecturer.name}, ' \
+                       f'курс "{course}" оценка - {grade}.'
             else:
                 return 'Ошибка'
         else:
@@ -64,6 +67,8 @@ class Reviewer(Mentor):
                 student.grades[course] += [grade]
             else:
                 student.grades[course] = [grade]
+            return f'Оценка лектору добавлена: {student.surname} {student.name}, ' \
+                   f'курс "{course}" оценка - {grade}.'
         else:
             return 'Ошибка'
     
@@ -71,46 +76,58 @@ class Reviewer(Mentor):
         res = f'Имя: {self.name}\nФамилия: {self.surname}'
         return res
  
-some_student = Student('Ruoy', 'Eman', 'your_gender')
-some_student.courses_in_progress += ['Python']
-some_student.courses_in_progress += ['Git']
-some_student.finished_courses += ['Введение в программирование']
-some_student1 = Student('Ruoy1', 'Eman1', 'your_gender')
-some_student1.courses_in_progress += ['Python']
-some_student1.courses_in_progress += ['Git']
-some_student1.finished_courses += ['Введение в программирование']
-some_student2 = Student('Ruoy2', 'Eman2', 'your_gender')
-some_student2.courses_in_progress += ['Python']
-some_student2.courses_in_progress += ['Git']
-some_student2.finished_courses += ['Введение в программирование']
 
- 
-some_reviewer = Reviewer('Some', 'Buddy')
-some_reviewer.courses_attached += ['Python']
-some_lecturer = Lecturer('Some', 'Buddy')
-some_lecturer.courses_attached += ['Python']
-some_lecturer1 = Lecturer('Some1', 'Buddy1')
-some_lecturer1.courses_attached += ['Python']
- 
-some_reviewer.rate_hw(some_student, 'Python', 1)
-some_reviewer.rate_hw(some_student, 'Python', 9)
-some_reviewer.rate_hw(some_student, 'Python', 10)  
-     
-some_student.rate_hw(some_lecturer, 'Python', 44)
-some_student.rate_hw(some_lecturer, 'Python', 3)
-some_student.rate_hw(some_lecturer, 'Python', 10)   
-some_student.rate_hw(some_lecturer1, 'Python', 3)
-some_student.rate_hw(some_lecturer1, 'Python', 4)
-some_student.rate_hw(some_lecturer1, 'Python', 1) 
+# Ввод исходных данных студентов
+students = [Student('Вася', 'Петров', 'М'),
+            Student('Саша', 'Белкин', 'М'),
+            Student('Карина', 'Соскина', 'Ж')]
+students[0].courses_in_progress += ['Python']
+students[0].finished_courses += ['GitHub']
+students[1].courses_in_progress += ['GitHub']
+students[2].courses_in_progress += ['GitHub', 'Python']
+students[2].finished_courses += ['English', 'Flask']
+
+# Исходные данные лекторов
+lecturers = [Lecturer('Кирилл', 'Григорьев'), Lecturer('Петр', 'Пивоваров')]
+lecturers[0].courses_attached += ['Python', 'GitHub']
+lecturers[1].courses_attached += ['GitHub']
+
+# Исходные данные проверяющих
+reviewers = [Reviewer('Константин', 'Гусейкин'), Reviewer('Владислав', 'Мечет')]
+reviewers[0].courses_attached += ['Python', 'GitHub']
+reviewers[1].courses_attached += ['English', 'GitHub']
+
+
+# Выставление оценок студентам
+print('ОЦЕНКИ СТУДЕНТАМ ЗА ДОМАШНИЕ ЗАДАНИЯ:')
+print(reviewers[0].rate_hw(students[0], 'Python', 5))
+print(reviewers[0].rate_hw(students[0], 'Python', 4))
+print(reviewers[0].rate_hw(students[0], 'Python', 3))
+print(reviewers[1].rate_hw(students[1], 'GitHub', 8))
+print(reviewers[1].rate_hw(students[1], 'GitHub', 3))
+print(reviewers[1].rate_hw(students[1], 'GitHub', 2))
+print(reviewers[0].rate_hw(students[2], 'GitHub', 4))
+print(reviewers[0].rate_hw(students[2], 'Python', 3))
+print(reviewers[1].rate_hw(students[2], 'GitHub', 5))
+
+# Выставление оценок лекторам
+print('\nОЦЕНКИ ЛЕКТОРАМ СТУДЕНТАМИ:')
+print(students[0].rate_hw(lecturers[0], 'Python', 9))
+print(students[1].rate_hw(lecturers[0], 'Python', 10))
+print(students[2].rate_hw(lecturers[0], 'Python', 10))
+print(students[2].rate_hw(lecturers[1], 'GitHub', 7))
+print(students[2].rate_hw(lecturers[0], 'GitHub', 10))
+print(students[1].rate_hw(lecturers[1], 'GitHub', 20))
+
+
+
 # Задание № 3
 # 1. Перегрузите магический метод __str__ у всех классов
-print(some_reviewer)
-print(some_lecturer)
-print(some_lecturer1)
-print(some_student)
+print(students[0])
+# print(some_lecturer)
+# print(some_lecturer1)
+# print(some_student)
 # 2. Реализуйте возможность сравнивать
-print(some_lecturer < some_lecturer1)
-
-print(Lecturer.__call__)
+# print(some_lecturer < some_lecturer1)
 
 
