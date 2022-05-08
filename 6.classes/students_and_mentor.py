@@ -25,14 +25,17 @@ class Student:
             return f'ОШИБКА: выставляемая лектору {lecturer.surname} оценка - {grade} ' \
                    f'должна быть в пределах от 0 до 10!'
 
-    def average_grade(self):
-        sum_grades=int()
-        index = 0
-        for course in self.grades.values():
-            for grade in course:
-                sum_grades += grade
-                index +=1
-        res = round(sum_grades/index, 1)
+    def average_grade(self, course=''):
+        if course == '' and len(self.grades) > 0:
+            sum_grades = sum(sum(self.grades.values(), []))
+            count_grades = sum(len(value) for value in self.grades.values())
+            res = round((sum_grades / count_grades) ,1)
+        elif course in self.grades.keys() and len(self.grades[course]) > 0:
+            sum_grades = sum(self.grades[course])
+            count_grades = len(self.grades[course])
+            res = round((sum_grades / count_grades) ,1)
+        else:
+            res = 0
         return res
 
     def __str__(self):
@@ -58,14 +61,22 @@ class Lecturer(Mentor):
         super().__init__(name, surname)
         self.grades = {}
 
-    def average_grade(self):
-        sum_grades=int()
-        index = 0
-        for course in self.grades.values():
-            for grade in course:
-                sum_grades += grade
-                index +=1
-        res = round(sum_grades/index, 1)
+    def average_grade(self, course=''):
+        """
+        Функция посчета среднего значения оценок, выставленным студенту за домашние задания
+        по преподаваемому курсу - course.
+        Если параметр course не указан - производится подсчет по всем курсам, закрепленным за студентом
+        """
+        if course == '' and len(self.grades) > 0:
+            sum_grades = sum(sum(self.grades.values(), []))
+            count_grades = sum(len(value) for value in self.grades.values())
+            res = round(sum_grades / count_grades, 1)
+        elif course in self.grades.keys() and len(self.grades[course]) > 0:
+            sum_grades = sum(self.grades[course])
+            count_grades = len(self.grades[course])
+            res = round((sum_grades / count_grades) ,1)
+        else:
+            res = 0
         return res
 
     def __str__(self):
@@ -74,9 +85,6 @@ class Lecturer(Mentor):
         
     def __lt__(self, other):
         return self.average_grade() < other.average_grade()
-
-    def __eq__(self, other):
-        return self.average_grade() == other.average_grade()
 
 class Reviewer(Mentor):    
     def rate_hw(self, student, course, grade):
@@ -93,7 +101,20 @@ class Reviewer(Mentor):
     def __str__(self):
         res = f'Имя: {self.name}\nФамилия: {self.surname}'
         return res
-   
+
+def average_grade(persons, course=''):
+    sum_average_grades = 0
+    count_persons = 0
+    res = 0
+    for person in persons:
+        if (isinstance(person, Student) and course in person.courses_in_progress) or \
+                (isinstance(person, Lecturer) and course in person.courses_attached):
+            sum_average_grades += person.average_grade(course)
+            count_persons += 1
+    if count_persons > 0:
+        res = sum_average_grades / count_persons
+    return res
+
 # Ввод исходных данных студентов
 students = [Student('Вася', 'Петров', 'М'),
             Student('Саша', 'Белкин', 'М'),
@@ -114,8 +135,7 @@ lecturers[1].courses_attached += ['GitHub']
 reviewers = [Reviewer('Константин', 'Гусейкин'),
              Reviewer('Владислав', 'Мечет')]
 reviewers[0].courses_attached += ['Python', 'GitHub']
-reviewers[1].courses_attached += ['English', 'GitHub']
-
+reviewers[1].courses_attached += ['Unix', 'GitHub']
 
 # Выставление оценок студентам
 print('ОЦЕНКИ СТУДЕНТАМ ЗА ДОМАШНИЕ ЗАДАНИЯ:')
@@ -154,3 +174,16 @@ print('\n --- ПРОВЕРКА ОПЕРАТОРОВ СРАВНЕНИЯ С ОПИ
 print(students[0] < students[1])
 print(lecturers[0] < lecturers[1])
 
+print('\n --- РЕЗУЛЬТАТЫ СРЕДНИХ ОЦЕНОК СТУДЕНТОВ ПО КУРСАМ ---')
+courses = []
+for person in students:
+    courses.extend(person.courses_in_progress)
+for i in set(courses):
+    print(f'Курс - {i}. Средняя оценка {average_grade(students, i):.1f}')
+
+print('\n --- РЕЗУЛЬТАТЫ СРЕДНИХ ОЦЕНОК СТУДЕНТОВ ЛЕКТОРАМ ---')
+courses = []
+for person in lecturers:
+    courses.extend(person.courses_attached)
+for i in set(courses):
+    print(f'Курс - {i}. Средняя оценка - {average_grade(lecturers, i):.1f}')
