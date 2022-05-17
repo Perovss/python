@@ -1,6 +1,9 @@
 import os
 from pprint import pprint
+
 file_path = os.path.join(os.getcwd(), 'recipes.txt')
+
+# Создаем кухонную книгу
 def cookbook():
     cookbook = {}
     with open(file_path) as file:
@@ -15,9 +18,9 @@ def cookbook():
                 cookbook[rec_name].append({'ingredient_name': column[0], 'quantity': column[1], 'measure': column[2]},)
             file.readline()
     return cookbook
-print("cook_book = ", cookbook())
-print("# -----------------------------------")
 
+
+#Получаем ингредиентов и его количества для блюда
 def get_shop_list_by_dishes(dishes, person_count):
     cook_book = cookbook()
     ingredient_list = {}
@@ -31,7 +34,11 @@ def get_shop_list_by_dishes(dishes, person_count):
                 update_dict = {ingridient['ingredient_name']: {'measure': ingridient['measure'],\
                  'quantity': int(ingridient['quantity']) * person_count}}
                 ingredient_list.update(update_dict)
-                # ingredient_list = sorted(ingredient_list).sort()
     return ingredient_list
+
+# Вывод на экран результата   
+print("cook_book = ")
+pprint(cookbook())
+print("\nСписок ингредиентов и его количества для блюда")
 pprint(get_shop_list_by_dishes(['Запеченный картофель', 'Омлет'], 2))
 # print(get_shop_list_by_dishes(['Запеченный картофель', 'Омлет', 'Утка по-пекински'], 1))
