@@ -131,3 +131,4 @@ dmypy.json
 6.classes/test.py
 token.txt
 8.http.requests/token_yandex.txt
+vk.txt
