@@ -1,6 +1,8 @@
-import time, requests, json, os
+import requests, json, os, time
 from pprint import pprint
+from datetime import datetime
 dict_photo = {}
+photo_list = []
 
 def write_json(data):
     with open('photos.json', 'w') as file:
@@ -38,12 +40,19 @@ class VKservice:
             sizes = (photo['sizes'])
             link_photo = max(sizes, key = get_lagest)['url']
             likes = (photo['likes'])['count']
-            print(link_photo)
+            photo_list.append(likes)
+            # print(link_photo)
 
+            print(photo_list)
             # for qwert in sizes:
             #     if qwert['type'] == 'z':
             #         qwerty = {qwert['url']: likes['count']}
             #         dict_photo.update(qwerty)
+
+            if likes in photo_list and photo_list.count(likes) >1:
+                
+                likes = str(likes) +'_' +str(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+
 
             download_photo(link_photo, 'Files', likes)
 
