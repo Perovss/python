@@ -1,14 +1,10 @@
 import requests, json, os, time
 from pprint import pprint
 from datetime import datetime
+from progress.bar import IncrementalBar
 dict_photo = {}
 photo_list = []
-new_photo_list = []
-
-def new_photo_list_qwerty(name):
-    new_photo_list.append(name)
-    return new_photo_list
-
+file_list = []
 
 def write_json(data):
     with open('photos.json', 'w') as file:
@@ -36,17 +32,20 @@ class VKservice:
         }
         res = requests.get(url_photos, params=params).json()
         photos = res['response']['items']
+        bar = IncrementalBar('Выгрузка фото из VK', max = len(photos))
         for photo in photos:
+            bar.next()
+            time.sleep(1)
             write_json(photo['sizes'])
             sizes = (photo['sizes'])
             link_photo = max(sizes, key = get_lagest)['url']
             likes = (photo['likes'])['count']
             photo_list.append(likes)
             if likes in photo_list and photo_list.count(likes) >1:               
-                likes = str(likes) +'_' +str(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-            new_photo_list_qwerty(likes)
+                likes = str(likes) +'_' +str(datetime.now().strftime("%Y-%m-%d %H-%M"))
             download_photo(link_photo, os.getcwd() + '/Files', likes)
-        print(new_photo_list_qwerty(likes))
+        bar.finish()
+
 def download_photo(url, disk_file_path, name):
     """
     Функция скачивания файла по интернет ссылке url в папку disk_file_path
@@ -58,9 +57,9 @@ def download_photo(url, disk_file_path, name):
     res = requests.get(url, stream=True, allow_redirects=True)
  
     # Вычленение навзания файла
-    # url = res.url.split('/')[-1].split('?')[0]
-    url = str(name) +'.jpg'
-
+    extension = res.url.split('.')[-1].split('?')[0]
+    url = str(name) +'.'+str(extension)
+    file_list.append(url)
     # Вычисление полного пути
     filepath = os.path.join(disk_file_path, url)
 
@@ -70,7 +69,6 @@ def download_photo(url, disk_file_path, name):
             for content in res.iter_content(1024):
                 if content:
                     image.write(content)
-new_photo_list_qwerty()
 
 class YaUploader:
     def __init__(self, token: str):
@@ -81,11 +79,19 @@ class YaUploader:
         headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': f'OAuth {self.token}'}
         params = {"path": disk_file_path, "overwrite": "true"}
         response = requests.get(upload_url, headers=headers, params=params)
+
         return response.json()
 
-    def upload_file_to_disk(self, disk_file_path, new_photo_list_qwerty(likes)):
-        href = self._get_upload_link(disk_file_path=disk_file_path).get("href", "")
-        response = requests.put(href, data=open(f"{os.getcwd()}/Files/{filename}", 'rb'), timeout=10)
-        response.raise_for_status()
-        if response.status_code == 201:
-            print(f"файл - {disk_file_path} загрузка выполнена.")
+    def upload_file_to_disk(self,path, filename = file_list):
+        bar = IncrementalBar('Загрузка фото из Yandex.Disc', max = len(file_list), )
+        for filename in file_list:
+            bar.next()
+            time.sleep(1)
+            disk_file_path = (f'{path}/{filename}')
+            href = self._get_upload_link(disk_file_path=disk_file_path).get("href", "")
+            response = requests.put(href, data=open(f"{os.getcwd()}/Files/{filename}", 'rb'), timeout=10)
+        bar.finish()
+            # response.raise_for_status()
+            # if response.status_code == 201:
+            #     print(f"файл - {disk_file_path} загрузка выполнена.")
+        
