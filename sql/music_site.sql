@@ -1,7 +1,7 @@
 SET client_encoding = 'UTF8';
 
 CREATE TABLE public.albums (
-    id integer NOT NULL,
+    id serial NOT NULL,
     name_album text,
     reales_year date
 );
@@ -23,7 +23,7 @@ CREATE SEQUENCE public.albums_id_seq
 ALTER SEQUENCE public.albums_id_seq OWNED BY public.albums.id;
 
 CREATE TABLE public.collections (
-    id integer NOT NULL,
+    id serial NOT NULL,
     name_collection text,
     reales_year date
 );
@@ -45,8 +45,8 @@ CREATE SEQUENCE public.collections_id_seq
 ALTER SEQUENCE public.collections_id_seq OWNED BY public.collections.id;
 
 CREATE TABLE public.collections_singles (
-    id_collection integer NOT NULL,
-    id_single integer NOT NULL
+    id_collection serial NOT NULL,
+    id_single serial NOT NULL
 );
 
 COMMENT ON TABLE public.collections_singles IS 'Связка сборники- треки';
@@ -75,7 +75,7 @@ CREATE SEQUENCE public.collections_singles_id_single_seq
 ALTER SEQUENCE public.collections_singles_id_single_seq OWNED BY public.collections_singles.id_single;
 
 CREATE TABLE public.genre (
-    id integer NOT NULL,
+    id serial NOT NULL,
     name_genre text
 );
 
@@ -96,7 +96,7 @@ ALTER SEQUENCE public.genre_id_seq OWNED BY public.genre.id;
 CREATE TABLE public.singers (
     name_singers text,
     nickname text,
-    id integer NOT NULL
+    id serial NOT NULL
 );
 
 COMMENT ON TABLE public.singers IS 'Исполнители';
@@ -106,8 +106,8 @@ COMMENT ON COLUMN public.singers.id IS 'Идентификатор исполн�
 
 
 CREATE TABLE public.singers_albums (
-    id_singer integer NOT NULL,
-    id_album integer NOT NULL
+    id_singer serial NOT NULL,
+    id_album serial NOT NULL
 );
 
 COMMENT ON TABLE public.singers_albums IS 'Связка исполнитель-альбом';
@@ -135,8 +135,8 @@ CREATE SEQUENCE public.singers_albums_id_singer_seq
 ALTER SEQUENCE public.singers_albums_id_singer_seq OWNED BY public.singers_albums.id_singer;
 
 CREATE TABLE public.singers_genres (
-    id_genre integer NOT NULL,
-    id_singer integer NOT NULL
+    id_genre serial NOT NULL,
+    id_singer serial NOT NULL
 );
 
 COMMENT ON TABLE public.singers_genres IS 'Связка исполнитель-жанр';
@@ -175,8 +175,8 @@ CREATE SEQUENCE public.singers_id_seq
 ALTER SEQUENCE public.singers_id_seq OWNED BY public.singers.id;
 
 CREATE TABLE public.singles (
-    id integer NOT NULL,
-    id_album integer NOT NULL,
+    id serial NOT NULL,
+    id_album serial NOT NULL,
     name_single text,
     duration time without time zone
 );
