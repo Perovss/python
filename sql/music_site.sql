@@ -42,9 +42,9 @@ COMMENT ON COLUMN public.genre.id IS 'Идентификатор жанра';
 COMMENT ON COLUMN public.genre.name_genre IS 'Наименование жанра';
 
 CREATE TABLE public.singers (
+    id serial4 NOT NULL,
     name_singers text,
-    nickname text,
-    id serial4 NOT NULL
+    nickname text
 );
 
 COMMENT ON TABLE public.singers IS 'Исполнители';
