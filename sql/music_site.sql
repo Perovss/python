@@ -75,7 +75,7 @@ CREATE TABLE public.singles (
     id serial4 NOT NULL,
     id_album serial4 NOT NULL,
     name_single text,
-    duration time without time zone
+    duration int4
 );
 
 COMMENT ON TABLE public.singles IS 'Треки';
