@@ -108,8 +108,6 @@ ALTER TABLE ONLY public.singers_genres
 ALTER TABLE ONLY public.singers_albums
     ADD CONSTRAINT singers_albums_pk PRIMARY KEY (id_singer,id_album);
 
-
-
 ALTER TABLE ONLY public.collections_singles
     ADD CONSTRAINT collections_singles_fk FOREIGN KEY (id_collection) REFERENCES public.collections(id);
 

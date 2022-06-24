@@ -16,7 +16,7 @@ INSERT INTO public.albums (name_album,release_year) VALUES
             ('Чёрный пёс Петербург', 1993),
             ('Баста 40', 2020),
             ('Самолет', 2018),
-            ('С самых низов', 2016)
+            ('С самых низов', 2016);
 
 INSERT INTO public.singers (name_singers,nickname) VALUES
             ('Michael Jackson','Майк'),
@@ -26,7 +26,7 @@ INSERT INTO public.singers (name_singers,nickname) VALUES
             ('ДДТ','Шевчук'),
             ('Баста','Бородатый'),
             ('Чугунный Скороход','Самолет'),
-            ('Леван Горозия','L’One')
+            ('Леван Горозия','L’One');
 
 INSERT INTO public.singers_albums (id_singer,id_album) VALUES
             (1,1),
@@ -36,7 +36,7 @@ INSERT INTO public.singers_albums (id_singer,id_album) VALUES
             (5,5),
             (6,6),
             (7,7),
-            (8,8)
+            (8,8);
 
 INSERT INTO public.singers_genres (id_genre,id_singer) VALUES
             (1,1),
@@ -48,7 +48,7 @@ INSERT INTO public.singers_genres (id_genre,id_singer) VALUES
             (7,7),
             (8,8),
             (8,6),
-            (6,8)
+            (6,8);
 
 INSERT INTO public.singles (id_album,name_single,duration) VALUES
             (1,'Billie Jean',290),
@@ -56,7 +56,7 @@ INSERT INTO public.singles (id_album,name_single,duration) VALUES
             (1,'Billie Jean(Длинная версия)',380),
             (1,'Billie Jean(Инструментальная версия)',380),
             (1,'Its the Falling in Love',226),
-            (1,'Billie Jean (Extended Re-Mix)',380)
+            (1,'Billie Jean (Extended Re-Mix)',380);
 
 INSERT INTO public.singles (id_album,name_single,duration) VALUES
             (2,'Hello, Dolly!',147),
@@ -66,7 +66,7 @@ INSERT INTO public.singles (id_album,name_single,duration) VALUES
             (2,'Someday',221),
             (2,'Hey, Look Me Over',158),
             (2,'I Still Get Jealous',133),
-            (2,'Moon River',179)
+            (2,'Moon River',179);
             
 INSERT INTO public.singles (id_album,name_single,duration) VALUES
             (3,'BB Boogie',237),
@@ -80,7 +80,7 @@ INSERT INTO public.singles (id_album,name_single,duration) VALUES
             (3,'Please Love Me',234),
             (3,'Woke Up This Morning',433),
             (3,'You Upset Me Baby',345),
-            (3,'Dont Look Now, But Ive Got The Blues',341)
+            (3,'Dont Look Now, But Ive Got The Blues',341);
 
 INSERT INTO public.singles (id_album,name_single,duration) VALUES
             (4,'Intro (Live)',270),
@@ -89,7 +89,7 @@ INSERT INTO public.singles (id_album,name_single,duration) VALUES
             (4,'Жене (Live)',225),
             (4,'За воротами времени (Live)',226),
             (4,'Живу и таю (Live)',400),
-            (4,'Почти устал (Live)',414)
+            (4,'Почти устал (Live)',414);
 
 INSERT INTO public.singles (id_album,name_single,duration) VALUES
             (5,'Пролог',225),
@@ -101,7 +101,7 @@ INSERT INTO public.singles (id_album,name_single,duration) VALUES
             (5,'Я остановил время',308),
             (5,'В это',286),
             (5,'Post интеллигент (бонус CD-издания)',287),
-            (5,'Террорист (бонус CD-издания)',504)
+            (5,'Террорист (бонус CD-издания)',504);
     
 INSERT INTO public.singles (id_album,name_single,duration) VALUES
             (6,'Интро',145),
@@ -113,7 +113,7 @@ INSERT INTO public.singles (id_album,name_single,duration) VALUES
             (6,'Я вижу',370),
             (6,'Не дотянуться до звёзд',249),
             (6,'ГотеMMосква',271),
-            (6,'Молодость',350)
+            (6,'Молодость',350);
 
 INSERT INTO public.singles (id_album,name_single,duration) VALUES
             (7,'Амстердам супер расколбас',182),
@@ -123,12 +123,12 @@ INSERT INTO public.singles (id_album,name_single,duration) VALUES
             (7,'Сначала по одной потом по половинке всё что нужно для хорошей вечеринки В',313),
             (7,'Всё,что нужно для хорошей вечеринки',248),
             (7,'Половинка (Polovinka Re-Work) (Radio Cut)',339),
-            (7,'North-West GSM original mix',342)
+            (7,'North-West GSM original mix',342);
 
 INSERT INTO public.singles (id_album,name_single,duration) VALUES
             (8,'С самых низов',213),
             (8,'Эльдорадо',247),
-            (8,'Рутина',315)
+            (8,'Рутина',315);
 
 INSERT INTO public.collections (name_collection,release_year) VALUES
             ('Cборник 1',2015), 
@@ -138,7 +138,7 @@ INSERT INTO public.collections (name_collection,release_year) VALUES
             ('Cборник 5',2019), 
             ('Cборник 6',2020), 
             ('Cборник 7',2021), 
-            ('Cборник 8',2022)
+            ('Cборник 8',2022);
 
 INSERT INTO public.collections_singles (id_collection,id_single) VALUES
             (1,1),
@@ -195,4 +195,4 @@ INSERT INTO public.collections_singles (id_collection,id_single) VALUES
             (8,52),
             (8,53),
             (8,54),
-            (8,55)
+            (8,55);
