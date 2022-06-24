@@ -100,6 +100,17 @@ ALTER TABLE ONLY public.singles
     ADD CONSTRAINT singles_pk PRIMARY KEY (id);
 
 ALTER TABLE ONLY public.collections_singles
+    ADD CONSTRAINT collections_singles_pk PRIMARY KEY (id_collection,id_single);   
+
+ALTER TABLE ONLY public.singers_genres
+    ADD CONSTRAINT singers_genres_pk PRIMARY KEY (id_genre,id_singer);
+
+ALTER TABLE ONLY public.singers_albums
+    ADD CONSTRAINT singers_albums_pk PRIMARY KEY (id_singer,id_album);
+
+
+
+ALTER TABLE ONLY public.collections_singles
     ADD CONSTRAINT collections_singles_fk FOREIGN KEY (id_collection) REFERENCES public.collections(id);
 
 ALTER TABLE ONLY public.collections_singles
