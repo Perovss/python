@@ -13,7 +13,7 @@ WHERE id_album IN
 SELECT a.name_album AS "Назване альбома", 
 	to_char((coalesce(avg(s.duration), 0)|| ' second')::interval,'MI:SS') AS "Средняя длительность трека" 
 	FROM public.singles s 
-RIGHT outer JOIN public.albums a ON s.id_album = a.id
+RIGHT OUTER JOIN public.albums a ON s.id_album = a.id
 GROUP BY a.name_album 
 ORDER BY 2;
 
