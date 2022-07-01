@@ -16,8 +16,8 @@ def create_db(conn):
             email VARCHAR(40) UNIQUE
         );
         CREATE TABLE IF NOT EXISTS phone(
-            id SERIAL,
-            client_id SERIAL PRIMARY KEY,
+            id SERIAL PRIMARY KEY,
+            client_id INT,
             phone VARCHAR(40) UNIQUE
         );
         ALTER TABLE ONLY public.phone
@@ -83,15 +83,30 @@ def delete_client(conn, first_name=None, last_name=None, email=None):
         print(cur.fetchall())
 
 def find_client(conn, first_name=None, last_name=None, email=None, phone=None):
-    pass
-
+        cur.execute("""
+        SELECT first_name, last_name, email, phone FROM public.client c 
+        left join phone p on c.id = p.client_id 
+        where first_name = %s and last_name = %s or email = %s or phone = %s;
+        """, (first_name, last_name, email, phone))
+        print(cur.fetchall())
 
 with psycopg2.connect(database="client", user="postgres", password="postgres") as conn:
     with conn.cursor() as cur:
         # create_db(conn)
-        # add_client(conn, 'Сергей','Перов','perov.ss@gmail.com')
-        # add_phone(conn, 8, '+79992073199')
-        # change_client(conn, 1, 'Вася', 'Пупкин') 
+        # add_client(conn, 'Вася','Жигуль','perov.ss1@gmail.com')
+        # add_phone(conn, 2, '+79992073198')
+        # change_client(conn, 2, 'Вася', 'Пупкин') 
         # delete_phone(conn, 1, '+79992073199')
-        delete_client(conn, '', '','perov.ss@gmail.com')
+        # delete_client(conn, '', '','perov.ss@gmail.com')
+        find_client(conn,'','','','+79992073199')
+        find_client(conn,'Вася','Жигуль','','')
 conn.close()
+
+
+
+# if __name__ == '__main__':
+#     print("Задание 1: Кто самый умный супергерой?")
+#     task1()
+
+#     print("\nЗадание 2. Передача файла на Яндекс диск")
+#     task2()
