@@ -1,9 +1,12 @@
 import bs4
+import re
 import requests
+# import pandas as pd
 from fake_headers import Headers
-HUBS1 = ['Visual Basic for Applications','CSS','Настройка Linux']
-URL2 = 'https://habr.com'
-target_url = URL2 + '/ru/all/'
+KEYWORDS = {'привет', 'фото', 'web', 'python', 'занимательные задачки', 'статья'}
+
+URL = 'https://habr.com'
+target_url = URL + '/ru/all/'
 HEADER = Headers(
         # browser="chrome",  # Generate only Chrome UA
         # os="win",  # Generate ony Windows platform
@@ -12,13 +15,23 @@ HEADER = Headers(
 response = requests.get(target_url, headers=HEADER)
 text = response.text
 soup = bs4.BeautifulSoup(text, features='html.parser')
-articles = soup.find_all("article")
-for article in articles:
-    hubs = article.find_all(class_='tm-article-snippet__hubs-item')
-    hub_list = [hub.find('span').text for hub in hubs]
-    for hub in hub_list:
-        if hub in HUBS1:
-            title = article.find('h2').find('span').text
-            link = article.find(class_ = 'tm-article-snippet__title-link').attrs['href']
-            result = f'Статья -> {title} / {URL2 + link}'
-            print(result)
+articles = soup.find_all("article" ,class_='tm-articles-list__item')
+data_list ={}
+
+
+def find_article():
+    for article in articles:
+        for key in KEYWORDS:
+            preview = article.find('div', class_='article-formatted-body').find(['p','div','br']).find(string=re.compile(key))
+            if preview is not None:
+                published = article.find('span', class_='tm-article-snippet__datetime-published').find('time').attrs['title']
+                links = article.find('a', class_='tm-article-snippet__title-link').attrs['href']
+                header = article.find('a', class_='tm-article-snippet__title-link').find('span').contents[0]
+                data_list['tag'] = key
+                data_list['published'] = published
+                data_list['links'] = URL + links
+                data_list['header'] = header
+                print(data_list['published'],data_list['header'],data_list['links'])
+
+if __name__ == '__main__':
+    find_article()
