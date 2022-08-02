@@ -1,7 +1,6 @@
 import bs4
 import re
 import requests
-# import pandas as pd
 from fake_headers import Headers
 KEYWORDS = {'привет', 'фото', 'web', 'python', 'занимательные задачки', 'статья'}
 
