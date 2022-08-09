@@ -2,6 +2,7 @@ import bs4
 import re
 import requests
 from fake_headers import Headers
+from decorator import logger
 KEYWORDS = {'привет', 'фото', 'web', 'python', 'Сейчас', 'статья'}
 
 URL = 'https://habr.com'
@@ -17,8 +18,9 @@ soup = bs4.BeautifulSoup(text, features='html.parser')
 articles = soup.find_all("article" ,class_='tm-articles-list__item')
 data_list ={}
 
-
-def find_article():
+@logger()
+def find_article(text):
+    result = str()
     for article in articles:
         for key in KEYWORDS:
             preview = article.find('div', class_='article-formatted-body').find(['p','div','br']).find(string=re.compile(key))
@@ -30,7 +32,9 @@ def find_article():
                 data_list['published'] = published
                 data_list['links'] = URL + links
                 data_list['header'] = header
-                print(data_list['published'],data_list['header'],data_list['links'])
-
+                step = f"{data_list['published']} {data_list['header']} {data_list['links']}\n"
+                result = result + step
+    print(result)
+    return result
 if __name__ == '__main__':
-    find_article()
+    find_article("Аргумент")
