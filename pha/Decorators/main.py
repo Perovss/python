@@ -3,9 +3,11 @@ import re
 import requests
 from fake_headers import Headers
 from decorator import logger
-KEYWORDS = {'привет', 'фото', 'web', 'python', 'Сейчас', 'статья'}
 
+KEYWORDS = {'привет', 'фото', 'web', 'python', 'Сейчас', 'статья'}
 URL = 'https://habr.com'
+LOG_FILE_NAME = 'results.log'
+PATH_LOG= 'logs/'
 target_url = URL + '/ru/all/'
 HEADER = Headers(
         # browser="chrome",  # Generate only Chrome UA
@@ -18,7 +20,7 @@ soup = bs4.BeautifulSoup(text, features='html.parser')
 articles = soup.find_all("article" ,class_='tm-articles-list__item')
 data_list ={}
 
-@logger()
+@logger(log_file_name=PATH_LOG + LOG_FILE_NAME)
 def find_article(text):
     result = str()
     for article in articles:
