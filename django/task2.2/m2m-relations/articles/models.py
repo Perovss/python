@@ -12,14 +12,33 @@ class Article(models.Model):
         verbose_name_plural = 'Статьи'
         ordering = ['-published_at']
 
-class Tags(models.Model):
+    def __str__(self):
+        return self.title
+
+class Tag(models.Model):
     id = models.AutoField(unique=True, primary_key=True)
     name = models.CharField(max_length=256, verbose_name='Название Раздел')
-
-
+    articles = models.ManyToManyField(Article, verbose_name='Статьи', related_name='tags', through='Scope')
+    
     class Meta:
         verbose_name = 'Раздел'
         verbose_name_plural = 'Разделы'
 
     def __str__(self):
-        return self.title
+        return self.name
+
+class Scope(models.Model):
+    id = models.AutoField(unique=True, primary_key=True)
+    is_main = models.BooleanField(default=False, verbose_name='Основной')
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, verbose_name='Статья', related_name='scopes')
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE, verbose_name='Раздел', related_name='scopes')
+    
+    class Meta:
+        verbose_name = 'Тематика статьи'
+        verbose_name_plural = 'Тематики статьи'
+
+    def __str__(self):
+        return f'{"Основной раздел" if self.is_main else ""}'
+
+
+
