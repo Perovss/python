@@ -13,6 +13,6 @@ class Measurements(ListCreateAPIView):
     serializer_class = MeasurementSerializer
 
 
-class SingleSensor(RetrieveUpdateAPIView):
+class OneSensor(RetrieveUpdateAPIView):
     queryset = Sensor.objects.all()
     serializer_class = SensorDetailSerializer
