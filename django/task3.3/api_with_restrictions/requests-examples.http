@@ -14,14 +14,14 @@ Content-Type: application/json
 Authorization: Token 481aaa92f5eb28c4d4fc88cc84e95c02f19a8703
 
 {
-  "title": "Шкаф IKEA1",
+  "title": "Шкаф IKEA2",
   "description": "Срочно"
 }
 
 ###
 
 # попытка поменять объявление
-PATCH {{baseUrl}}/advertisements/1/
+PATCH {{baseUrl}}/advertisements/21/
 Content-Type: application/json
 Authorization: Token 481aaa92f5eb28c4d4fc88cc84e95c02f19a8703
 
@@ -38,5 +38,5 @@ Content-Type: application/json
 ###
 
 # фильтрация по дате
-GET {{baseUrl}}/advertisements/?created_at_before=2020-10-01
+GET {{baseUrl}}/advertisements/?created_at_before=2021-10-17
 Content-Type: application/json

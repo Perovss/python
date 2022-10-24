@@ -11,7 +11,7 @@ class AdvertisementStatusChoices(models.TextChoices):
 
 class Advertisement(models.Model):
     """Объявление."""
-
+    id = models.AutoField(unique=True, primary_key=True)
     title = models.TextField()
     description = models.TextField(default='')
     status = models.TextField(
@@ -28,3 +28,10 @@ class Advertisement(models.Model):
     updated_at = models.DateTimeField(
         auto_now=True
     )
+    class Meta:
+        verbose_name = 'Объявление'
+        verbose_name_plural = 'Объявления'
+
+
+    def __str__(self):
+        return f'Объявление №{self.id}: {self.title} ({self.creator})'
