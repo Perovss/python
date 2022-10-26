@@ -17,9 +17,11 @@ class AdvertisementViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
     # TODO: настройте ViewSet, укажите атрибуты для кверисета,
     #   сериализаторов и фильтров
-
+    
     def get_permissions(self):
         """Получение прав для действий."""
-        if self.action in ["create", "update", "partial_update"]:
-            return [IsAuthenticated()]
+
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            return [IsAuthenticated(), IsOwnerOrReadOnly()]
+
         return []
