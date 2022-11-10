@@ -4,7 +4,7 @@ docker build --tag stocks_products .
 
 ## Запуск
 
-docker run -it --publish 8000:8000 stocks_products
+docker run -d --publish 8000:8000 stocks_products
 
 # Проверка работы  RestAPI  через PostMan
 
