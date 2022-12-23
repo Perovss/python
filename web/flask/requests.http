@@ -3,11 +3,11 @@
 
 # создание объявления
 POST http://127.0.0.1:5000/advertisements/
-Content-Type: application/json
+content-type: application/json; charset=UTF-8
 
 {
-  "title": "Продам дом",
-  "description": "Большой, красивый",
+  "title": "Продам автомобиль",
+  "description": "Kia Rio, цвет красный",
   "user_id": 1
 }
 
@@ -15,21 +15,21 @@ Content-Type: application/json
 
 # получение объявления
 GET http://127.0.0.1:5000/advertisements/1
-Content-Type: application/json
+Content-Type: application/json ; charset=UTF-8
 
 ###
 
 # обновление объявления
 PATCH http://127.0.0.1:5000/advertisements/1
-Content-Type: application/json
+Content-Type: application/json ; charset=UTF-8
 
 {
-  "title": "Продам гараж",
-  "description": "Большой, красивый"
+  "title": "Продам автомобиль",
+  "description": "Kia Rio, цвет зеленый",
 }
 
 ###
 
 # удаление объявления
 DELETE http://127.0.0.1:5000/advertisements/1
-Content-Type: application/json
+Content-Type: application/json ; charset=UTF-8

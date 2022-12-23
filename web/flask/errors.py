@@ -25,7 +25,7 @@ class BasicException(Exception):
 
 class BadLuck(BasicException):
     status_code = 400
-    default_message = 'Bad luck'
+    default_message = 'Bad Request'
 
 
 class NotFound(BasicException):
